@@ -11,5 +11,7 @@ class TodoViewSet(ModelViewSet):
 
 
     def get_queryset(self):
-        queryset = self.queryset.filter(author=self.request.user)
-        return queryset
+        if self.request.user.is_superuser:
+            return self.queryset
+        else:
+            self.queryset.filter(author=self.request.user)
