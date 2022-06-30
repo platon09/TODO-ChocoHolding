@@ -3,8 +3,9 @@ from django.db import models
 
 
 class User(AbstractUser):
-    ROLE_CHOICES = (('admin', 'Admin'), ('employee', 'Employee'),)
-    role = models.CharField(max_length=8, choices=ROLE_CHOICES, blank=True, null=True)
+    @property
+    def role(self):
+        return "admin" if self.is_superuser else "employee"
 
 
 class Task(models.Model):
